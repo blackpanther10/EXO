@@ -1,0 +1,15 @@
+# Environnement virtuel
+venv/
+
+# Fichiers Python compilés
+__pycache__/
+*.pyc
+*.pyo
+
+# Fichiers temporaires
+*.log
+*.tmp
+*.swp
+
+# Configuration locale
+.env
