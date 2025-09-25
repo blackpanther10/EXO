@@ -1,0 +1,43 @@
+---
+- name: Déploiement PROD - Application Python depuis Git
+  hosts: prod
+  vars_files:
+    - ../vault.yml
+  tasks:
+
+    - name: Installer Git, Python et pip
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop:
+        - git
+        - python3
+        - python3-pip
+
+    - name: Créer le répertoire de l'application
+      file:
+        path: /opt/app-prod
+        state: directory
+
+    - name: Cloner le dépôt depuis GitHub
+      git:
+        repo: 'https://github.com/blackpanther10/EXO.git'  # Ton repo
+        dest: /opt/app-prod
+        version: main  # Branche prod
+        force: yes
+
+    - name: Installer les dépendances Python (si requirements.txt)
+      pip:
+        requirements: /opt/app-prod/requirements.txt
+      ignore_errors: yes
+
+    - name: Exécuter le script Python
+      command: python3 main.py
+      args:
+        chdir: /opt/app-prod
+
+    - name: Créer un fichier de confirmation
+      copy:
+        content: "Déploiement PROD Python effectué avec succès le {{ ansible_date_time.iso8601 }}"
+        dest: /opt/app-prod/deploy.log
