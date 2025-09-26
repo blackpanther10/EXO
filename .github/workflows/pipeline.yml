@@ -7,8 +7,8 @@ on:
       - main
 
 jobs:
-  runs-on: self-hosted
-  labels: [selfhosted]
+  build-and-deploy:          # ✅ identifiant du job
+    runs-on: self-hosted
 
     steps:
       # 🔹 1. Checkout du code
