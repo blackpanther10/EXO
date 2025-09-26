@@ -35,7 +35,13 @@
     - name: Exécuter le script Python
       command: python3 main.py
       args:
-        chdir: /opt/app-prod
+        chdir: /opt/app-prod/app
+      register: python_output
+      
+    - name: Afficher le résultat de main.py
+      debug:
+        msg: "Python script executed! Output:\n{{ python_output.stdout }}"
+
 
     - name: Créer un fichier de confirmation
       copy:
